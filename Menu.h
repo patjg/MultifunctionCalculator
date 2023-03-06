@@ -18,7 +18,8 @@ public:
 	//constructor and desctructor
 
 	//member functions
-	int onOpen();
+	void onOpen();
+	//int getConsoleHandle();
 	/*
 	void onClose();
 	void main_menu();
@@ -35,13 +36,14 @@ public:
 //derived BasicCalcMenu class
 
 
-#include "Menu.h"
-
-
 class BasicCalcMenu : protected Menu
 {
+
+
 public:
 	void onOpen();
+	void help();
+	void performCalculation();
 
 };
 
