@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "Calculator.h"
+#include "BackgroundUtilities.h"
 #include <iostream>
 #include <string>
 #include <iomanip>
@@ -118,6 +119,8 @@ void BasicCalcMenu::onOpen()
 					case '+': 
 						x = static_cast<int> (itr - 1);
 						y = static_cast<int> (itr + 1);
+
+						if ()
 						return Calculator::sum(x, y);
 					}
 				}

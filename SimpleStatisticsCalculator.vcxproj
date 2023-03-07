@@ -132,10 +132,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Calculator.h" />
+    <ClInclude Include="BackgroundUtilities.h" />
     <ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\CalculatorMain.cpp" />
+    <ClCompile Include="BackgroundUtilities.cpp" />
     <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
