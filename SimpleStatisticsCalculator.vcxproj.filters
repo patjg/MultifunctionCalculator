@@ -24,6 +24,9 @@
     <ClInclude Include="BackgroundUtilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includeHeaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\CalculatorMain.cpp">

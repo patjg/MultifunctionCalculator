@@ -1,9 +1,7 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-#include <cctype>
-#include <iostream>
-#include <vector>
+#include "includeHeaders.h"
 #include "Calculator.h"
 
 #define IS_PARA true
@@ -24,54 +22,90 @@ private:
 
 public:
 
+	//bool background functions used for determining the type of any non-digit operators
+
 	static bool isParanethesis(char&);
 	static bool isExponent(char&);
 	static bool isMultiplication(char&);
 	static bool isDivision(char&);
 	static bool isAddition(char&);
 	static bool isSubstraction(char&);
-	static char checkType(char&);
+	static bool isRoot(char&);
+
+	//bool background function that will employ the above subfunctions to determine if the character passed as an argument is an operator or operand
+	static bool isOperator(char&);
+
+	//bool background functions that will 
+
+	static bool isDouble(std::string&); 
+	static bool isFloat(std::string&);
+	static bool isInt(std::string&);
+
+	//ptrinit is designed to take a char pointer in and instantiating another ptr at that address
+
+	static char* ptrinit(char*);
+
+	//
+
+	static std::vector <std::string> pemdas(std::string& numstring)
+	{
+		int location{ 0 };
+		std::string tmpstring;
+		std::vector <std::string> resultvec;
+
+		if(numstring.find('^') != std::string::npos || numstring.find('[') != std::string::npos)
+		{
+			while (numstring.find('^') != std::string::npos)
+			{
+				location = numstring.find('^');
+				char* ptr{&numstring[location]}
+				char* rangeendPtr{ptr};
+				while (!isOperator(*ptr))
+				{
+					ptr--;
+					
+				}
+
+				char* rangestartPtr{ ptr };
+
+				while (!isOperator(*rangeendPtr)) //increment rangeendPtr until another operator is encountered.
+				{
+					rangeendPtr++;
+
+				}
+				tmpstring = numstring.substr(static_cast <size_t> (static_cast <int> (*rangestartPtr)), (rangeendPtr - rangestartPtr)); //tmpstring is set to a substring that starts at the location of rangestartPtr and count is set to rangeendPtr - rangestartPtr
+				
+
+			}
+		}
+		//std::array<char, 9> operators{'(', ')', '^', '[', ']', '*', '/', '+', '-'};
+	}
+		
+
 
 	template <typename T> static T determineType(std::string& numstring)
 	{
 
-		T return_value;
-
-		if(!numstring.find('.')) //if no dot is found in the numstring, return int
+		if (isInt(numstring))
 		{
-			return_value = int();
-		}
-		else if (numstring.size() > 0)
-		{
-			for (auto const& itr : numstring)
-			{
-				if (itr == '.' && isdigit(static_cast<int>(itr + 2)))
-				{
-					return_value = double();
-				}
-			}
+			//method that will progressively cast to int to place into tuple
 		}
 
-		else
+		else if (isFloat(numstring))
 		{
-				return_value = float();
+			//method to cast to float for placement into tuple
 		}
 
-		try
+		else if (!isFloat(numstring))
 		{
-			return return_value;
-		}
-		catch(...)
-		{
-			std::cout << "There was an error in identifying the type of data.\n";
+			//method to cast to double
 		}
 
 	}
 
-	static std::vector<int> changeToInt(std::string&);
-	char* ptrinit(char* c);
-	static std::vector<float> changeToFloat(std::string&);
-	static double changeToDouble(std::string&);
+	static std::tuple <char, int, int> changeToInt(std::string&);
+	static std::tuple <char, float, float> changeToFloat(std::string&);
+	static std::tuple <char, double, double > changeToDouble(std::string&);
 
 
 	template <typename A> static A function_solver(std::pair<A,A>& bits, char& operation)
@@ -96,7 +130,7 @@ public:
 		}
 	}
 
-	template <typename C> static std::pair<C,C> functionIterator(std::string& numstr)
+	/*template <typename C> static std::pair<C,C> functionIterator(std::string& numstr)
 	{
 		C result;
 		std::pair <C,C> returnpair;
@@ -150,7 +184,7 @@ public:
 			}
 		}
 	}
-
+*/
 
 
 

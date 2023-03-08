@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="..\Calculator.h" />
     <ClInclude Include="BackgroundUtilities.h" />
+    <ClInclude Include="includeHeaders.h" />
     <ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>
