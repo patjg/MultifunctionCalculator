@@ -22,29 +22,28 @@
     return returnVec;
 }*/
 
-char* BackgroundUtility::ptrinit(char* c) //function to initialize a new ptr to the location of the pointer that is passed as an argument, essentially saving a pointer location
+
+//method to change to a char, int, int tuple where char is the operator ;;;; this operation will need to accept already formed substrings, I believe, based on the intial input string
+/*std::tuple<char, int, int> BackgroundUtility::changeToInt(std::string& substring)
 {
-	char* d = nullptr;
-	d = c;
 
-	return (d);
-}
+	//this is the character that will be placed into the tuple as an identifier for the operator type for later calculation
+	char oper;
 
-
-//method to change to a char, int, int tuple where char is the operator
-std::tuple<char, int, int> BackgroundUtility::changeToInt(std::string& substring)
-{
-	char oper1;
+	//identifies the outer bounds of brackets to identify any root operations
 	char bracket2;
 	char bracket;
+
+	//counter variable
+	int i{ 0 };
+
+	//these are the integers that will placed into the tuple
 	int x;
-	int y;
-	int range{0};
-	int range_begin{ 0 };
-	char* ptr{ nullptr };
+	int y; 
+
 	std::string stringX;
 	std::string stringY;
-	std::tuple<char, int, int> returnval;
+
 
 	for (auto& itr : substring)
 	{
@@ -53,40 +52,37 @@ std::tuple<char, int, int> BackgroundUtility::changeToInt(std::string& substring
 			if (!isRoot(itr))
 			{
 				stringX = substring.substr(substring[0], (itr - 1)); //stringX and stringY are both substrings of the argument. stringX is anything before the 
-				stringY = substring.substr((itr + 1), *substring.end());
-				oper1 = itr;
+				stringY = substring.substr((itr + 1)); //only needs starting position because it will automatically go from that point the std::string::npos (which is the end of the string)
+				oper = itr;
 			}
 			else if (isRoot(itr))
 			{
 				bracket = substring.find('[');
 				bracket2 = substring.find(']');
+
 				stringX = substring.substr(substring[0], substring[bracket - 1]);
 				stringY = substring.substr(substring[bracket + 1], substring[bracket2 - 1]);
 
-				oper1 = itr;
+				oper = itr;
+			}
+			else if (isMultiplication(itr) || isDivision(itr) || isAddition(itr) || isSubstraction(itr)) //check if multiplication, division, addition, or subtraction and assign the itr to oper and create substringX prior to operator and substringY after operator to end
+			{
+				oper = itr;
+				stringX = substring.substr(substring[0], substring[itr - 1]);
+				stringY = substring.substr(substring[itr + 1]);
 			}
 
 			try 
 			{
 				x = std::stoi(stringX);
 				y = std::stoi(stringY);
-				return std::make_tuple(oper1, x, y);
+				return std::make_tuple(oper, x, y);
 			}catch (...)
 			{
 				std::cout << "There was an error.\n";
 				std::cout << "The x substring is currently " << stringX << " and the y substring is " << stringY << '\n';
 				break;
 			}
-		}
-
-		else if (isOperator(itr))
-		{
-
-		}
-
-		else
-		{
-			std::cout << "There was an error in the input substr: " << substr << std::endl;
 		}
 	}
 	return std::make_tuple('e', -1, -1);
@@ -95,7 +91,7 @@ std::tuple<char, int, int> BackgroundUtility::changeToInt(std::string& substring
 //These methods all check the type of character that is encountered by the iterator, not sure if this necessary
 
 
-bool BackgroundUtility::isParanethesis(char& c) 
+bool BackgroundUtility::isParanetheses(char& c) 
 {
 	if (c == '(' || c == ')')
 	{
@@ -153,16 +149,16 @@ bool BackgroundUtility::isSubstraction(char& c)
 
 bool BackgroundUtility::isFloat(std::string& numstr)
 {
-	std::array<char, 9> operators{ '(', ')', '^', '[', ']', '*', '/', '+', '-' };
 	size_t found = numstr.find('.');
 	int counter{ 0 };
 	if(found != std::string::npos)
 	{
 		 int dotspot = found;
-		 for (auto const& itr = numstr[dotspot]; !isdigit(static_cast<int>(itr));)
+		 for (auto const& itr = numstr.at(dotspot); isdigit(static_cast<int>(itr));)
 		 {
 			
 			 counter++;
+
 			if (counter > 1)
 			{
 				return false; //false, in this case, will indicate type double

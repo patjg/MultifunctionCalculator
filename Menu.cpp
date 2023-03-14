@@ -9,7 +9,6 @@
 #include <memory>
 #include <malloc.h>
 
-//#define _WIN32_WINNT 0x601, used for drawing to console later
 
 #include <windows.h>
 #include <stdio.h>
@@ -17,13 +16,6 @@
 
 using namespace std;
 
-/*int Menu::getConsoleHandle()
-{
-	HWND console_handle = GetConsoleWindow();
-	HDC device_context = GetDC(console_handle);
-
-
-}*/
 
 
 void Menu::onOpen()
@@ -56,8 +48,6 @@ void Menu::onOpen()
 		break;
 	case 2:
 	{
-		BasicCalcMenu basic_menu;
-		basic_menu.onOpen();
 		break;
 	}
 	case 3:
@@ -78,60 +68,18 @@ void Menu::onOpen()
 
 void BasicCalcMenu::onOpen()
 {
+	string result;
 
-	cout << "This calculator can perform these calculations using the provided syntax:\n\tAddition: x + y + ...\n\tSubtraction: x - y - ...\n\tMultiplication: x * y * ...\n\tDivision: x/y/z\n\tExponentiation:x^y\n\tRoot: x[y], where x is the number and y is the root)\n\n\n";
-	cout << "You can use parentheses to group calculations as you would in normal arithmetic, and you can provide multiple numbers and perform multiple types of calculations using the provided syntax. If at anytime you need help, you can type \"help\" into the console or type \"exit\" to return to the main menu.\n\n\n";
-	cout << "Please enter your calculation here: ";
-
-	//This needs a lot of work. Currently, if there are parentheses, the tmpvec is filled with the innards by using a while loop. I have tried to make
-	//all Calculator methods static, so I do not need to create a Calculator object. I will create one if needed, but I don't think it is the best way to do that
-	//I have to figure out how to use the template a bit more efficiently so that it can adjust based on the user's input
-	string response;
-	vector <char> tmpvec;
-	int x;
-	int y;
-	
-
-	getline(cin, response);
-	
-	if (response == "Help" || response == "help")
+	do
 	{
-		help();
-	}
-	else if (response == "exit" || response == "EXIT" || response == "Exit")
-	{
-		;
-	}
-	else
-	{
-		for (auto const& itr : response)
-		{
-			if (itr == '(')
-			{
-				while (itr != ')')
-				{
-					tmpvec.push_back(itr);
-				}
-				for (auto const& itr1 : tmpvec)
-				{
-					switch (itr)
-					{
-					case '+': 
-						x = static_cast<int> (itr - 1);
-						y = static_cast<int> (itr + 1);
-
-						if ()
-						return Calculator::sum(x, y);
-					}
-				}
-			}
-
-		}
-	
+		cout << "Please enter your calculation, type exit to go back to the main menu, or type help: ";
+		getline(cin, result);
+		this->userInput = result;
 
 
-
+	} while (result != "exit" && result != "Exit" && result != "EXIT");
 }
+
 
 void BasicCalcMenu::help()
 {
@@ -150,19 +98,14 @@ void BasicCalcMenu::help()
 }
 
 
-void BasicCalcMenu::performCalculation()
+void BasicCalcMenu::setInput(std::string& user_input)
 {
-	string result;
+	this->userInput = user_input;
+}
 
-	do
-	{
-		cout << "Please enter your calculation, type exit to go back to the main menu, or type help: ";
-		getline(cin, result);
-
-
-	} while (result != "exit" && result != "Exit" && result != "EXIT");
-
-
+string BasicCalcMenu::getInput()
+{
+	return this->userInput;
 }
 
 
